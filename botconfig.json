@@ -1,7 +1,7 @@
 {
     "token": "<discord bot token>",
-    "uemail":"<streamable email>",
-    "upwd":"<streamable password>",
+    "uemail": "<streamable email>",
+    "upwd": "<streamable password>",
     "prefix": "!",
     "commands": {
         "help": {
@@ -12,5 +12,8 @@
             "description": "Einsenden von streamable Links!",
             "name": "submit"
         }
-    }
+    },
+    "allowedHosts": [
+        "https://www.twitch.tv/"
+    ]
 }
