@@ -105,3 +105,5 @@ dist
 
 #logs
 log_*
+
+*.json
