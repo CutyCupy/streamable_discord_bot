@@ -1,15 +1,15 @@
 {
-    "token": "<token>",
+    "token": "<discord bot token>",
     "uemail":"<streamable email>",
     "upwd":"<streamable password>",
     "prefix": "!",
     "commands": {
         "help": {
-            "description": "",
+            "description": "Auflistung alles mögliche Commands!",
             "name": "help"
         },
         "submit": {
-            "description": "",
+            "description": "Einsenden von streamable Links!",
             "name": "submit"
         }
     }

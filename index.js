@@ -15,10 +15,14 @@ bot.on("ready", async() => {
 });
 
 const commandMap = new Map([
-  [botconfig.commands.help.name, (msg) => {
-   
+  [botconfig.commands.help, (message) => {
+    const cmds = []
+    for(const cmd of commandMap.keys()) {
+      cmds.push(`${botconfig.prefix}${cmd.name}: ${cmd.description}`)
+    }
+   message.channel.send(`Meine Commands:\n${cmds.join("\n")}`)
   }],
-  [botconfig.commands.submit.name, (msg) => {
+  [botconfig.commands.submit, (msg) => {
     if (!(msg instanceof Message)) {
       return;
     }
@@ -74,59 +78,9 @@ bot.on("message", async message => {
     return;
   }
   message.content = message.content.substring(1)
-  if(message.content.startsWith(botconfig.convert)){
-
-    data = fs.readFileSync('clips.json', 'utf8'); 
-    clips = JSON.parse(data);
-    
-    var convMsg = message.content.split(" ");
-    
-    urlImport = urlImport + convMsg[1];
-
-    for (const clip of clips) {
-      if (clip.originalURL == urlImport) {
-        message.channel.send(`Dieser Clip wurde bereits von ${clip.submitter} eingereicht!`)
-        clip.submissions++; 
-        json = JSON.stringify(clips);
-        fs.writeFileSync('clips.json', json, 'utf8');
-        return;
-      }
-    }
-
-    axios.get(urlImport,{
-      auth: {
-        username: uemail,
-        password: upwd
-      },
-    }).then((resp) => {
-      clips.push({
-        submitter: message.author.username,
-        originalURL: urlImport,
-        uploadCode: resp.data.shortcode,
-        submissions: 1,
-        ts: Date.now(),
-      });
-      json = JSON.stringify(clips); //convert it back to json
-      fs.writeFileSync('clips.json', json, 'utf8');
-    },(error) => {
-      console.log(error);
-    });
-  }
-  
-  if(message.content.startsWith(botconfig.retrieve)){
-    var retMsg = message.content.split(streamableBaselinkVideo)
-    urlExport = urlExport + retMsg[1];
-
-    axios.get(urlExport,{
-      auth: {
-        username: uemail,
-        password: upwd
-      }
-    }).then((resp) => {
-      message.channel.send("https:"+resp.data.files.mp4.url);
-    },(error) => {
-      console.log(error);
-    });
+  const command = botconfig.commands[message.content.split(" ")[0]]
+  if(commandMap.has(command)) {
+    commandMap.get(command)(message);
   }
 
 });

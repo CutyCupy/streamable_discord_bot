@@ -106,4 +106,4 @@ dist
 #logs
 log_*
 
-*.json
+botconfig.json
