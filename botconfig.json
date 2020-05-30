@@ -1,7 +1,7 @@
 {
-    "token": "MzM4NDEwMjU0MzgxMzUwOTE0.Xs74gQ.dsNrmFAcUpbHBe9M4vI0F8uSR9s",
-    "uemail":"keep.smiling95@web.de",
-    "upwd":"alexander",
+    "token": "<token>",
+    "uemail":"<streamable email>",
+    "upwd":"<streamable password>",
     "prefix": "!",
     "commands": {
         "help": {
