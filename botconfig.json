@@ -9,7 +9,7 @@
             "name": "help"
         },
         "submit": {
-            "description": "Einsenden von streamable Links!",
+            "description": "Einsenden von Clips!",
             "name": "submit"
         }
     },
