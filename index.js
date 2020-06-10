@@ -26,22 +26,36 @@ const commandMap = new Map([
     }
     message.channel.send(`Meine Commands:\n${cmds.join("\n")}`)
   }],
-  [botconfig.commands.submit, (msg) => {
-    if (!(msg instanceof Message)) {
-      return;
-    }
-    channel = msg.channel
-    sender = msg.author
+  [botconfig.commands.submit, (message) => {
+    channel = message.channel
+    sender = message.author
     data = fs.readFileSync('clips.json', 'utf8');
     clips = JSON.parse(data);
 
     var convMsg = message.content.split(" ");
 
-    urlImport = urlImport + convMsg[1];
+    if (convMsg.length <= 1) {
+      return;
+    }
+
+    const video = convMsg[1]
+
+    var allowed = false
+    for (const host of botconfig.allowedHosts) {
+      if (video.startsWith(host)) {
+        allowed = true
+        break
+      }
+    }
+
+    if (!allowed) {
+      channel.send(`<@${sender.id}> <${video}> ist leider nicht von einer gültigen Website für Clips! \n Die gültigen Websites sind ${getAllowedHosts()}`)
+      return;
+    }
 
     for (const clip of clips) {
       if (clip.originalURL == urlImport) {
-        message.channel.send(`Dieser Clip wurde bereits von ${clip.submitter} eingereicht!`)
+        message.channel.send(`<@${sender.id}> Dieser Clip wurde bereits von ${clip.submitter} eingereicht!`)
         clip.submissions++;
         json = JSON.stringify(clips);
         fs.writeFileSync('clips.json', json, 'utf8');
@@ -49,7 +63,7 @@ const commandMap = new Map([
       }
     }
 
-    axios.get(urlImport, {
+    axios.get(urlImport + video, {
       auth: {
         username: uemail,
         password: upwd
@@ -57,7 +71,7 @@ const commandMap = new Map([
     }).then((resp) => {
       clips.push({
         submitter: message.author.username,
-        originalURL: urlImport,
+        originalURL: video,
         uploadCode: resp.data.shortcode,
         submissions: 1,
         ts: Date.now(),
@@ -86,7 +100,6 @@ bot.on("message", async message => {
   if (commandMap.has(command)) {
     commandMap.get(command)(message);
   }
-
 });
 
 async function checkStreams() {
@@ -170,3 +183,11 @@ async function getStreamMessage(stream) {
 setInterval(checkStreams, 5000);
 
 bot.login(botconfig.token);
+
+function getAllowedHosts() {
+  var hosts = []
+  for (const host of botconfig.allowedHosts) {
+    hosts.push(`<${host}>`)
+  }
+  return hosts.join(", ")
+}

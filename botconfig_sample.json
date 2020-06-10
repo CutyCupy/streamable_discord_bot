@@ -1,7 +1,7 @@
 {
     "token": "<discord bot token>",
-    "uemail":"<streamable email>",
-    "upwd":"<streamable password>",
+    "uemail": "<streamable email>",
+    "upwd": "<streamable password>",
     "prefix": "!",
     "commands": {
         "help": {
@@ -9,7 +9,7 @@
             "name": "help"
         },
         "submit": {
-            "description": "Einsenden von streamable Links!",
+            "description": "Einsenden von Clips!",
             "name": "submit"
         }
     },
@@ -20,5 +20,8 @@
             "trihex",
             "scarra"
         ]
-    }
+    },
+    "allowedHosts": [
+        "https://www.twitch.tv/"
+    ]
 }
