@@ -1,0 +1,24 @@
+{
+    "token": "<discord bot token>",
+    "uemail":"<streamable email>",
+    "upwd":"<streamable password>",
+    "prefix": "!",
+    "commands": {
+        "help": {
+            "description": "Auflistung alles mögliche Commands!",
+            "name": "help"
+        },
+        "submit": {
+            "description": "Einsenden von streamable Links!",
+            "name": "submit"
+        }
+    },
+    "streamReminder": {
+        "streamReminderChannel": "general",
+        "streamer": [
+            "ggGibi",
+            "trihex",
+            "scarra"
+        ]
+    }
+}
